@@ -1,117 +1,114 @@
-# 중1 수학 용어 사전
+# K-Math Wiki System
 
-중학교 1학년 수학 교과서에 새롭게 등장하는 용어를 단원별로 정리한 웹 앱입니다.
+중·고등학교 수학 교육과정의 용어를 단원별로 정리한 위키 시스템입니다.
 
-🔗 **라이브 데모**: `https://<your-username>.github.io/math-terms-app`
+🔗 **라이브 데모**: https://Jeffchoi97.github.io/K-Math-Wiki-System
+
+---
+
+## 콘텐츠 범위
+
+### 중학교
+- **1학년**: 11개 단원 (Ⅰ-Ⅵ)
+- **2학년**: 11개 단원 (Ⅰ-Ⅵ)
+- **3학년**: 12개 단원 (Ⅰ-Ⅶ)
+
+### 고등학교
+- **고등수학 (상)**: 다항식, 방정식과 부등식, 도형의 방정식
+- **고등수학 (하)**: 집합과 명제, 함수, 경우의 수
+- **수학Ⅰ**: 지수·로그함수, 삼각함수, 수열
+- **수학Ⅱ**: 함수의 극한과 연속, 미분, 적분
+- **확률과 통계**: 경우의 수, 확률, 통계
+- **미적분**: 수열의 극한, 미분법, 적분법
+- **기하**: 이차곡선, 평면벡터, 공간도형
+
+> 현재 **중학교 1학년의 4개 단원**(소인수분해, 정수와 유리수, 문자와 식, 일차방정식)에 용어가 채워져 있고, 나머지는 단원 구조만 잡혀 있습니다. 점진적으로 채워나갈 예정입니다.
 
 ---
 
 ## 기능
 
-- 단원별 탭 필터 (Ⅰ-1 소인수분해 / Ⅰ-2 정수와 유리수 / Ⅱ-1 문자와 식 / Ⅱ-2 일차방정식)
-- 용어·설명 실시간 검색
-- 라이트 / 다크 모드 자동 지원
-- 반응형 (모바일 대응)
+- 3단계 계층 탐색: **학교급 → 과목 → 단원**
+- 전체 단원 모드 (과목 내 모든 용어를 단원별 섹션으로 표시)
+- 단원별 모드 (특정 단원의 용어만)
+- 용어·정의·예시 통합 검색
+- 라이트/다크 모드 자동 전환
+- 모바일 반응형
 
---- 
+---
 
 ## 프로젝트 구조
 
 ```
-math-terms-app/
-├── index.html          # 메인 HTML
+K-Math-Wiki-System/
+├── index.html              # 진입점
 ├── css/
-│   └── style.css       # 스타일
+│   └── style.css           # 스타일
 ├── js/
-│   └── app.js          # 렌더링 로직
+│   └── app.js              # 렌더링 로직 (3단계 네비게이션)
 ├── data/
-│   └── terms.js        # 용어 데이터 (CHAPTERS 배열)
+│   └── curriculum.js       # 교육과정 데이터 (CURRICULUM 배열)
 └── README.md
 ```
 
----
-
-## GitHub Pages 배포 방법
-
-### 1단계 — GitHub 저장소 만들기
-
-1. [github.com/new](https://github.com/new) 에서 새 저장소 생성
-2. 저장소 이름 예: `math-terms-app`
-3. **Public** 으로 설정 (Pages 무료 사용 조건)
-4. **Create repository** 클릭
-
-### 2단계 — 파일 업로드
-
-**방법 A: 웹 브라우저로 업로드 (간단)**
-
-```
-저장소 페이지 → "uploading an existing file" 클릭
-→ 폴더 전체 드래그 앤 드롭 → Commit changes
-```
-
-> ⚠️ 폴더 구조(`css/`, `js/`, `data/`)가 그대로 유지되어야 합니다.
-
-**방법 B: Git CLI 사용**
-
-```bash
-cd math-terms-app
-git init
-git add .
-git commit -m "첫 번째 커밋"
-git branch -M main
-git remote add origin https://github.com/<your-username>/math-terms-app.git
-git push -u origin main
-```
-
-### 3단계 — GitHub Pages 활성화
-
-```
-저장소 → Settings → Pages
-→ Source: "Deploy from a branch"
-→ Branch: main / (root)
-→ Save
-```
-
-약 1분 후 `https://<your-username>.github.io/math-terms-app` 에서 접속 가능합니다.
-
----
-
-## 용어 데이터 수정 방법
-
-`data/terms.js` 파일의 `CHAPTERS` 배열을 수정하면 됩니다.
+### 데이터 구조
 
 ```js
-// 새 챕터 추가 예시
-{
-  id: "geometry",
-  label: "Ⅲ-1 기본 도형",
-  accentColor: "#534AB7",
-  accentBg: "#EEEDFE",
-  accentText: "#3C3489",
-  terms: [
-    {
-      ko: "점",
-      en: "Point",
-      def: "위치만 있고 크기가 없는 도형의 기본 요소",
-      ex: null,
-    },
-    // ...
-  ],
-},
+CURRICULUM = [
+  { id, label, subjects: [
+    { id, label, paletteKey, chapters: [
+      { id, label, terms: [
+        { ko, en, def, ex }
+      ] }
+    ] }
+  ] }
+]
 ```
 
 ---
 
-## 향후 확장 계획 (로드맵)
+## 용어 추가 방법
 
-- [ ] 퀴즈 모드 (빈칸 채우기, 카드 뒤집기)
-- [ ] 즐겨찾기 기능 (localStorage)
-- [ ] 단원 추가 (Ⅲ, Ⅳ 단원)
-- [ ] React + Vite 마이그레이션
-- [ ] Vercel / Netlify 배포
+`data/curriculum.js`에서 해당 단원의 `chapters` 배열을 찾아 `ch(...)` 호출의 마지막 인자로 용어 배열을 추가하면 됩니다.
+
+```js
+// 예: 중2 유리수와 순환소수 단원에 용어 추가
+ch("m2-rational", "Ⅰ-1 유리수와 순환소수", "green", [
+  {
+    ko: "유한소수",
+    en: "Finite Decimal",
+    def: "소수점 아래의 0이 아닌 숫자가 유한 번 나타나는 소수",
+    ex: "0.5, 0.25, 1.125 등"
+  },
+  // ...
+]),
+```
 
 ---
 
-## 라이선스
+## GitHub Pages 배포
 
-개인 학습용 프로젝트입니다.
+이미 `https://Jeffchoi97.github.io/K-Math-Wiki-System` 로 배포되어 있습니다.
+
+파일을 수정한 뒤 GitHub에 push 하면 1~2분 후 자동으로 반영됩니다.
+
+```bash
+git add .
+git commit -m "용어 추가: 중2 유리수와 순환소수"
+git push
+```
+
+---
+
+## 향후 로드맵
+
+- [x] 3단계 계층 구조 (학교급 → 과목 → 단원)
+- [x] 전체 교육과정 단원 placeholder
+- [ ] 중1 나머지 단원 (Ⅲ~Ⅵ) 채우기
+- [ ] 중2, 중3 채우기
+- [ ] 고등 과정 채우기
+- [ ] 즐겨찾기 (localStorage)
+- [ ] 퀴즈 모드
+- [ ] 단원별 개념 관계도 (그래프 시각화)
+- [ ] React + Vite 마이그레이션
+- [ ] PWA 지원 (오프라인 사용)

@@ -2,9 +2,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
   --bg: #f8f7f4;
   --surface: #ffffff;
+  --surface-2: #f1efe8;
   --border: rgba(0, 0, 0, 0.08);
   --border-strong: rgba(0, 0, 0, 0.14);
   --text-primary: #1a1a1a;
@@ -20,8 +21,9 @@
   :root {
     --bg: #111110;
     --surface: #1c1c1b;
+    --surface-2: #252523;
     --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.14);
+    --border-strong: rgba(255,255,255,0.16);
     --text-primary: #f0ede8;
     --text-secondary: #a8a49e;
     --text-tertiary: #66635e;
@@ -43,7 +45,7 @@ body {
 .page-header {
   border-bottom: 0.5px solid var(--border);
   padding: 2rem 1.5rem 1.5rem;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -61,7 +63,7 @@ body {
 }
 
 .page-body {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1.5rem;
 }
@@ -69,12 +71,12 @@ body {
 /* ── Search ── */
 .search-wrap {
   position: relative;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
   width: 16px;
@@ -85,7 +87,7 @@ body {
 
 #search {
   width: 100%;
-  padding: 0.6rem 1rem 0.6rem 2.5rem;
+  padding: 0.65rem 1rem 0.65rem 2.6rem;
   border: 0.5px solid var(--border-strong);
   border-radius: var(--radius-pill);
   background: var(--surface);
@@ -96,18 +98,60 @@ body {
   transition: border-color 0.15s;
 }
 
-#search:focus { border-color: rgba(0,0,0,0.3); }
+#search:focus { border-color: var(--text-secondary); }
 #search::placeholder { color: var(--text-tertiary); }
 
-/* ── Tabs ── */
-.tabs {
+/* ── Navigation hierarchy ── */
+.nav-section { margin-bottom: 1rem; }
+
+.nav-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+/* Level 1: 학교급 — segmented control style */
+.school-toggle {
+  display: inline-flex;
+  background: var(--surface-2);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  gap: 2px;
+}
+
+.school-btn {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  transition: all 0.15s;
+}
+
+.school-btn:hover:not(.active) { color: var(--text-primary); }
+
+.school-btn.active {
+  background: var(--surface);
+  color: var(--text-primary);
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+/* Level 2: 과목 — pill tabs */
+.subject-tabs {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
 }
 
-.tab {
+.subject-btn {
   padding: 5px 14px;
   border-radius: var(--radius-pill);
   border: 0.5px solid var(--border-strong);
@@ -116,26 +160,92 @@ body {
   font-family: var(--font);
   font-size: 0.8125rem;
   cursor: pointer;
-  transition: all 0.12s;
+  transition: all 0.15s;
   white-space: nowrap;
 }
 
-.tab:hover:not(.active) { background: var(--surface); }
+.subject-btn:hover:not(.active) { background: var(--surface); }
 
-.tab.active {
-  background: var(--text-primary);
-  color: var(--bg);
+.subject-btn.active {
+  color: #fff;
+  font-weight: 500;
+  border-color: transparent;
+}
+
+/* Level 3: 단원 — smaller tabs */
+.chapter-tabs {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.chapter-btn {
+  padding: 4px 11px;
+  border-radius: var(--radius-md);
+  border: 0.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chapter-btn:hover:not(.active) { background: var(--surface); border-color: var(--border-strong); }
+
+.chapter-btn.active {
+  background: var(--surface);
   border-color: var(--text-primary);
+  color: var(--text-primary);
   font-weight: 500;
 }
 
+.chapter-btn.empty { opacity: 0.55; }
+
+.chapter-count {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-btn.active .chapter-count { color: var(--text-secondary); }
+
 /* ── Stats bar ── */
 .stats-bar {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  margin: 1.25rem 0 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ── Section header (전체 view) ── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 1.75rem 0 0.875rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.section-header:first-child { margin-top: 0; }
+
+.section-header h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.section-header .section-count {
   font-size: 0.75rem;
   color: var(--text-tertiary);
-  margin-bottom: 1rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 /* ── Card grid ── */
@@ -195,16 +305,29 @@ body {
 }
 
 /* ── Empty state ── */
-.empty {
+.empty-state {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3.5rem 2rem;
   color: var(--text-tertiary);
-  font-size: 0.9rem;
+}
+
+.empty-state .icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.empty-state p { font-size: 0.875rem; }
+
+.empty-state .hint {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  opacity: 0.7;
 }
 
 /* ── Footer ── */
 .page-footer {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 3rem auto 0;
   padding: 1.5rem;
   border-top: 0.5px solid var(--border);
@@ -212,8 +335,17 @@ body {
   color: var(--text-tertiary);
 }
 
+.page-footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 0.5px solid var(--border-strong);
+}
+
+.page-footer a:hover { color: var(--text-primary); }
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
   .page-header, .page-body { padding: 1rem; }
   .grid { grid-template-columns: 1fr; }
+  .page-title { font-size: 1.25rem; }
 }
